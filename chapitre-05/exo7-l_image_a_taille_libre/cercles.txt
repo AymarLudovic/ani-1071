@@ -1,0 +1,8 @@
+30 x 10 :
+[Recopier ici les 10 lignes du dessin 30 x 10 affiché par le programme.]
+
+80 x 24 :
+[Recopier ici les 24 lignes du dessin 80 x 24 affiché par le programme.]
+
+Qui possède :
+Dans main, image1 reçoit l'adresse de la mémoire réservée par creerImage(30, 10). Elle est rendue après son affichage par detruireImage(image1). De même, image2 reçoit la mémoire réservée par creerImage(80, 24) et est rendue après son affichage par detruireImage(image2). Chaque image est libérée une seule fois.
