@@ -1,0 +1,8 @@
+Somme : 56
+Maximum : 19
+Avant inversion : 1 2 3 4 5
+Apres inversion : 5 4 3 2 1
+Longueur de bonjour : 7
+strlen de bonjour : 7
+Longueur de Yaoundé : 8
+strlen de Yaoundé : 8
