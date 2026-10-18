@@ -1,0 +1,15 @@
+
+a :
+*a = 5; : refusée, car la valeur désignée ne peut pas être modifiée à travers a.
+a = &y; : acceptée, car a peut changer de cible.
+
+b :
+*b = 5; : acceptée, car b peut modifier la valeur désignée.
+b = &y; : refusée, car b est un pointeur constant.
+
+c :
+*c = 5; : refusée, car la valeur désignée ne peut pas être modifiée à travers c.
+c = &y; : refusée, car c est un pointeur constant.
+
+Règle :
+Lorsque const est placé avant int dans const int* p, il protège la valeur désignée contre les modifications faites à travers p. Lorsque const est placé après l'étoile dans int* const p, il empêche le pointeur de changer de cible. Dans const int* const p, les deux sont protégés.
