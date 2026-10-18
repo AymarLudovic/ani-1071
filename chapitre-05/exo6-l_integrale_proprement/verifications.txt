@@ -1,0 +1,12 @@
+
+Intégrale : 1.999998 pour sin entre 0 et 3.14159 ; 0.332834 pour x*x entre 0 et 1.
+
+Dérivée : 1.000000 pour la dérivée de sin en 0.
+
+Zéro : 1.414214 pour le zéro de x*x - 2 ; sqrt(2) vaut environ 1.414214.
+
+Arrêt :
+La boucle s'arrête lorsque la largeur de l'intervalle devient inférieure ou égale à 1e-12, ou après 1000 itérations. L'écart avec sqrt(2) est très faible, inférieur à la précision affichée.
+
+Sans pointeur :
+Il faudrait modifier la fonction integrale pour ajouter un nouveau choix, par exemple dans un switch selon un numéro représentant la fonction. Avec un pointeur de fonction, on peut transmettre directement une nouvelle fonction compatible sans modifier le calcul de l'intégrale.
