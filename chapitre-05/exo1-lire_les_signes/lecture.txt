@@ -1,0 +1,16 @@
+
+Prédictions :
+5 9
+9 9
+9 1
+
+Obtenu :
+5 9
+9 9
+9 1
+
+Écarts :
+aucun.
+
+p = q :
+L'instruction p = q copie dans p l'adresse contenue dans q. Elle change donc la variable désignée par p : p désigne désormais b au lieu de a. Elle ne modifie ni a ni b à elle seule. L'instruction *p = 1 qui suit modifie b, car p désigne maintenant b.
