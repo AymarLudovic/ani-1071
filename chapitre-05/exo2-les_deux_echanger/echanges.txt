@@ -1,0 +1,7 @@
+Avant le premier echange : 1 2
+Apres l'echange par pointeurs : 2 1
+Apres l'echange par references : 1 2
+Doubles avant : 1.5 2.5
+Doubles apres : 2.5 1.5
+Caracteres avant : A B
+Caracteres apres : B A
