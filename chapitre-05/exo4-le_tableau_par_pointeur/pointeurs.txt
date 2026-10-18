@@ -1,3 +1,5 @@
+
+Sortie :
 Somme : 56
 Maximum : 19
 Avant inversion : 1 2 3 4 5
@@ -6,3 +8,9 @@ Longueur de bonjour : 7
 strlen de bonjour : 7
 Longueur de Yaoundé : 8
 strlen de Yaoundé : 8
+
+Yaoundé :
+La fonction longueur rend 8 dans un fichier source UTF-8, car strlen et longueur comptent les octets avant le caractère de fin '\0'. Yaoundé contient 7 lettres, mais le caractère é est généralement encodé sur deux octets. Il y a donc 8 octets au total.
+
+Pourquoi pas const :
+inverser doit modifier les valeurs du tableau. Avec const int* t, les valeurs ne pourraient pas être modifiées à travers t. La fonction doit donc recevoir int* t, qui autorise la modification des cases.
