@@ -1,3 +1,22 @@
+Prévu :
+Depart : x = 3.0, y = 4.0
 Apres bougerCopie : x = 3.0, y = 4.0
 Apres bougerRef : x = 4.0, y = 4.0
 Apres longueurRef (longueur = 5.7) : x = 4.0, y = 4.0
+
+Obtenu :
+Depart : x = 3.0, y = 4.0
+Apres bougerCopie : x = 3.0, y = 4.0
+Apres bougerRef : x = 4.0, y = 4.0
+Apres longueurRef (longueur = 5.7) : x = 4.0, y = 4.0
+
+Message :
+copie.cpp:25:9: error: assigning to member 'x' of a 'const Vec2' object
+    p.x = 0.0;
+    ~~~ ^
+1 error generated.
+
+Pourquoi :
+- Le passage par valeur (Vec2 p) crée une copie locale ; les modifications faites à l'intérieur de la fonction n'affectent pas la variable d'origine.
+- Le passage par référence (Vec2& p) donne un accès direct à la variable d'origine et permet de modifier ses membres.
+- Le passage par référence constante (const Vec2& p) évite la copie en mémoire tout en interdisant formellement toute modification de l'objet par la fonction.
