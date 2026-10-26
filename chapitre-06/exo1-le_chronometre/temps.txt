@@ -1,0 +1,11 @@
+-O0 :
+Total = 500000500000 | Durées : 0.00291280 s, 0.00309620 s, 0.00302130 s
+
+-O2 :
+Total = 500000500000 | Durées : 0.00000000 s, 0.00000000 s, 0.00000000 s
+
+Un printf :
+Durées : 0.00003860 s, 0.00003440 s, 0.00005130 s, 0.00004050 s, 0.00004600 s. Le programme écrivait dans la fenêtre du terminal de VS Code.
+
+Le plus cher :
+D'après les mesures, la boucle non optimisée (-O0) est ce qui coûte le plus cher en temps de calcul brut (environ 3 millisecondes), mais l'optimisation -O2 a permis au compilateur de supprimer totalement la boucle en précalculant directement la somme (constant folding). À l'inverse, les appels répétés à printf coûtent cher en opérations d'E/S système par rapport à une boucle optimisée.
