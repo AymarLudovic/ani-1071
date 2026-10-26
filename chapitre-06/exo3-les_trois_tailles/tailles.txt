@@ -1,0 +1,15 @@
+Mesures :
+Vec2 : 16, 16
+Particule : 40, 40
+A : 5, 8
+B : 10, 24
+C : 10, 16
+ParticuleR1 : 41, 48
+
+Ordres essayés :
+ParticuleR1 (vie, etat, position, vitesse) : 48
+ParticuleR2 (position, vitesse, vie, etat) : 48
+ParticuleR3 (position, vie, etat, vitesse) : 48
+
+Règle :
+Le compilateur aligne chaque membre sur un multiple de sa propre taille et insère des octets de remplissage invisibles pour optimiser l'accès par le processeur. La taille totale de la structure est ainsi toujours un multiple de l'alignement de son membre le plus grand, ce qui explique les écarts observés.
