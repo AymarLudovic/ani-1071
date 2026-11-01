@@ -1,0 +1,19 @@
+Essais :
+c = (200, 100, 50, 255)
+c * 2 = (255, 200, 100, 255) : les composantes RGB sont multipliees puis bornees a 255 ; alpha reste 255.
+c + d, avec d = (100, 200, 250, 10), donne (255, 255, 255, 255) : chaque composante sature a 255.
+lerp(c, d, 0.5) donne (150, 150, 150, 133) : le milieu entre les deux couleurs, alpha compris.
+La multiplication ne change pas alpha, car le facteur est choisi ici pour assombrir/eclaircir la couleur sans changer son opacite. L'addition, elle, additionne aussi alpha avec saturation.
+
+Sans saturer :
+200 + 200 donne 400 dans le calcul entier. En rangeant 400 dans un `unsigned char` de 8 bits, on garde 400 modulo 256, soit 144. La valeur affichee est donc 144. La composante a deja deborde avant qu'on puisse la corriger ; il faut borner la valeur avant de la convertir en unsigned char.
+
+Empaquetage :
+(200, 100, 50, 255) -> 0xC86432FF -> (200, 100, 50, 255) ; l'entier reconstruit vaut aussi 0xC86432FF.
+(12, 34, 56, 78) -> 0x0C22384E -> (12, 34, 56, 78) ; l'entier reconstruit vaut aussi 0x0C22384E.
+Les decalages placent r aux bits 31 a 24, g aux bits 23 a 16, b aux bits 15 a 8, et a aux bits 7 a 0.
+
+Message :
+Avec seulement le constructeur `Couleur(unsigned int rgba)`, `Couleur c = {200, 100, 50, 255};` est refuse :
+error: no matching constructor for initialization of 'Couleur'
+Le constructeur a un seul argument unsigned int ; il ne recoit pas quatre composantes. J'ai ajoute un constructeur a quatre arguments `Couleur(unsigned char rouge, unsigned char vert, unsigned char bleu, unsigned char alpha)`. La syntaxe avec accolades compile alors de nouveau.
