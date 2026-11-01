@@ -1,0 +1,20 @@
+Copie :
+Apres `Image b = a;`, modifier b ne change pas a : a affiche toujours les deux A, tandis que b affiche B puis A.
+Apres `c = a;`, modifier c ne change pas a : a affiche toujours les deux A, tandis que c affiche A puis C.
+Cela montre que le constructeur de copie et l'operateur d'affectation font chacun une copie des pixels dans une allocation independante.
+
+Vivantes :
+Dans le bloc, le compte vaut 3 : a, b et c existent.
+Apres le bloc, le compte vaut 0 : les trois destructeurs ont ete appeles.
+
+Sans le test :
+L'avertissement Clang est : `explicitly assigning value of variable of type 'Image' to itself`.
+Trois observations sur la machine de test (les adresses changent d'un lancement a l'autre) :
+Lancement 1 : avant 0x55627a23f2b0 ; apres 0x55627a23f2b0 ; image affichee corrompue : `?.'V..` puis `......`.
+Lancement 2 : avant 0x5637d5d692b0 ; apres 0x5637d5d692b0 ; image affichee corrompue : `i]}c..` puis `......`.
+Lancement 3 : avant 0x562bdb17b2b0 ; apres 0x562bdb17b2b0 ; image affichee corrompue : `{..b..` puis `......`.
+Ces adresses et ces caracteres sont seulement des observations locales : l'auto-affectation sans garde a un comportement indefini. Sur un autre lancement, la memoire peut etre differente, le programme peut planter, ou les donnees peuvent etre encore plus corrompues. Remplacer les adresses par celles de vos trois propres lancements avant de deposer.
+
+Pourquoi :
+Dans `a = a`, l'objet source `autre` est exactement le meme objet que `*this`. Sans le test `if (this == &autre)`, l'operateur commence par faire `delete[] pixels_`. Il libere donc aussi le tableau que `autre.pixels_` designe, puisque les deux expressions appartiennent au meme objet.
+Ensuite, il alloue un nouveau tableau et tente de copier les donnees depuis `autre.pixels_`, qui contient encore l'ancienne adresse devenue invalide. La copie lit donc une zone liberee : c'est un acces apres liberation (use-after-free), avec comportement indefini. Le test d'auto-affectation doit normalement etre conserve.
