@@ -1,0 +1,28 @@
+Vivantes :
+Avant la boucle : 0 image(s) vivante(s).
+A chacun des dix tours : 1 image(s) vivante(s), car l'image du tour precedent a ete detruite avant le tour suivant.
+Apres la boucle : 0 image(s) vivante(s).
+Pendant le dessin hors de la boucle : 1 image(s) vivante(s).
+A la fin : 0 image(s) vivante(s).
+
+Dessin :
+Image affichee (21 x 11) avec deux segments qui se croisent :
+                     
+ ##               ## 
+  ###           ###  
+     ##       ##     
+       ### ###       
+         ###         
+       ### ###       
+     ##       ##     
+  ###           ###  
+ ##               ## 
+                     
+
+Copie :
+La ligne `Image b = dessin;` est refusee. Message Clang observe :
+error: call to deleted constructor of 'Image'
+
+Pourquoi :
+L'objet Image alloue ses pixels avec `new[]` dans son constructeur et les rend avec `delete[]` dans son destructeur. Les membres sont prives pour empecher la modification directe du tampon et des dimensions.
+La copie est interdite avec `Image(const Image&) = delete;` et l'affectation avec `Image& operator=(const Image&) = delete;`. Une copie membre par membre copierait seulement l'adresse du pointeur `pixels_` : les deux images partageraient alors le meme tableau. A leur destruction, elles tenteraient de liberer deux fois la meme allocation. Interdire la copie evite ce probleme tant qu'une copie profonde n'est pas implementee.
