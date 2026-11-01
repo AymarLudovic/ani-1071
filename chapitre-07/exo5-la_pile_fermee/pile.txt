@@ -1,0 +1,23 @@
+Messages :
+Pour `p.nombre = -5;`, Clang refuse l'acces :
+error: 'nombre' is a private member of 'Pile'
+Pour `f.tete = 7;`, Clang refuse l'acces :
+error: 'tete' is a private member of 'File'
+
+Essais :
+Pile apres 150 empilements : 100 (pleine=oui)
+Pile apres 200 depilements : 0 (vide=oui)
+File apres 150 enfilements : 100 (pleine=oui)
+File apres 60 defilements : 40
+File apres 150 nouveaux enfilements : 100 (pleine=oui)
+La pile ne depasse jamais 100 elements et ne descend jamais sous zero. La file accepte au plus 100 elements ; apres avoir retire 60 elements, elle peut reutiliser les cases liberees en faisant tourner queue.
+
+Invariant de la file :
+La capacite vaut 100. `nombre` reste toujours entre 0 et 100 inclus.
+`tete` et `queue` restent toujours des indices entre 0 et 99.
+`queue` indique la prochaine case ou inserer ; `tete` indique la prochaine case a retirer.
+Avec les operations de cette file circulaire, `queue == (tete + nombre) % 100` reste vrai. Quand la file est pleine, `queue == tete` ; cela ne signifie pas qu'elle est vide, car `nombre` vaut alors 100. Quand elle est vide, `nombre` vaut 0.
+
+Struct :
+Avec `struct Pile` et un `private:` conserve, `nombre` reste prive et `p.nombre = -5;` est refuse. Retirer `private:` rend les membres publics par defaut dans une struct ; l'affectation directe compile alors et peut casser l'invariant.
+Avec `class Pile`, les membres sont prives par defaut jusqu'a `public:`. Avec `struct`, ils sont publics par defaut. Mais un `private:` explicite fonctionne de la meme maniere dans les deux. La difference entre class et struct est donc la visibilite par defaut, pas une difference de capacite ou de comportement des methodes.
