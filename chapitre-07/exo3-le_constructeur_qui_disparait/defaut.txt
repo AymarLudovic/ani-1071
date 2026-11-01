@@ -1,0 +1,22 @@
+Messages :
+Avec seulement `P(int v) : a(v) {}`, Clang refuse `P x;` :
+error: no matching constructor for initialization of 'P'
+Il refuse aussi `P t[10];` :
+error: no matching constructor for initialization of 'P[10]'
+La raison est identique : chaque objet doit etre construit sans argument, mais seul un constructeur demandant un int existe.
+
+Avec a(0) :
+En ajoutant `P() : a(0) {}`, la compilation reussit et `x.a` affiche 0. Le tableau `t` peut aussi etre construit, chaque element recevant a = 0.
+
+Avec = default :
+En remplacant ce constructeur par `P() = default;`, Clang ne donne aucun message avec `-Wall -Wextra` lors de cet essai : la compilation reussit.
+Trois lancements observes sur la machine de test :
+Lancement 1 : x.a = 1651076199
+Lancement 2 : x.a = 1651076199
+Lancement 3 : x.a = 1651076199
+Ces nombres ne sont PAS des resultats garantis. Lire `x.a` dans cet etat a un comportement indefini ; un autre lancement, compilateur ou ordinateur peut afficher autre chose, ou le programme peut se comporter differemment.
+
+Pourquoi :
+L'ecriture d'un constructeur avec parametre `P(int v)` fait disparaitre le constructeur sans parametre que le compilateur aurait pu fournir automatiquement. C'est pourquoi `P x;` et les dix objets de `P t[10]` etaient refuses.
+`P() : a(0) {}` donne explicitement la valeur zero au membre.
+`P() = default;` demande au compilateur de generer le constructeur par defaut. Mais ce constructeur ne met pas automatiquement a zero un membre entier ordinaire. Avec `P x;`, `a` reste indetermine. Le fait d'observer parfois 0, ou le meme nombre plusieurs fois, ne prouve pas que le membre a ete initialise.
