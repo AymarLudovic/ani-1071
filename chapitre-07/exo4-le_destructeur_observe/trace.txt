@@ -1,0 +1,43 @@
+Prévu :
+`main` nait en premier.
+La Trace de `fonction` nait, puis meurt a la sortie de la fonction.
+La Trace du bloc simple nait, puis meurt a la fermeture du bloc.
+La Trace creee par `new` sans `delete` nait et ne meurt pas pendant le programme.
+La Trace creee par `new` avec `delete` nait puis meurt au `delete`.
+Les deux Traces du dernier bloc naissent dans l'ordre premier puis second, et meurent dans l'ordre inverse : second puis premier.
+A la fin de main, la Trace locale `main` meurt.
+
+Sortie :
+Sortie du premier lancement, avant l'ajout de `m.~Trace();` :
+main nait
+fonction nait
+fin fonction
+fonction meurt
+bloc simple nait
+fin bloc simple
+bloc simple meurt
+new sans delete nait
+new avec delete nait
+new avec delete meurt
+premier du bloc double nait
+second du bloc double nait
+fin bloc double
+second du bloc double meurt
+premier du bloc double meurt
+fin main
+main meurt
+
+Explication :
+`main nait` : construction de l'objet local `m` au debut de main.
+`fonction nait` : construction de l'objet local de la fonction appelee.
+`fin fonction` puis `fonction meurt` : le message de fin est affiche avant la destruction automatique a la sortie de la fonction.
+`bloc simple nait`, `fin bloc simple`, `bloc simple meurt` : la destruction arrive a l'accolade fermante.
+`new sans delete nait` : l'objet est cree sur le tas ; aucun `delete` ne le detruit, donc son destructeur n'est pas appele avant la fin du programme.
+`new avec delete nait` puis `new avec delete meurt` : `delete` appelle le destructeur de l'objet pointe.
+`premier ... nait` puis `second ... nait` : les deux objets du bloc sont construits dans cet ordre.
+`fin bloc double` puis `second ... meurt` et `premier ... meurt` : les objets locaux sont detruits dans l'ordre inverse de leur construction.
+`fin main` puis `main meurt` : le local de main est detruit en quittant sa portee.
+
+Appel à la main :
+Avec `m.~Trace();` juste avant `return`, le message `main meurt` apparait une premiere fois avant le retour. A la sortie de main, la destruction automatique tente encore de detruire `m`, et le message apparait une deuxieme fois dans cette experience.
+C'est une faute : l'appel manuel met fin a la duree de vie de l'objet, mais le langage tentera quand meme sa destruction automatique a la sortie de la portee. Ici, Trace ne possede aucune ressource, donc on voit surtout le message en double. Si Trace possedait un tableau alloue par `new`, le deuxieme destructeur pourrait refaire `delete[]` sur la meme adresse : double liberation et comportement indefini.
