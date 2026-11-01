@@ -1,0 +1,23 @@
+Boucle :
+Total a chaque lancement : 4999999950000000.
+Mesures effectuees avec clang++ 17, sans -O2, sur la machine de test :
+Boucle 1 : 0.230654791 s
+Boucle 2 : 0.221242755 s
+Boucle 3 : 0.225046726 s
+Ces durees sont des exemples : elles changeront selon l'ordinateur et la charge du systeme.
+
+Le plus court :
+Mesure 1 : 0.000000130 s
+Mesure 2 : 0.000000050 s
+Mesure 3 : 0.000000140 s
+Mesure 4 : 0.000000040 s
+Mesure 5 : 0.000000040 s
+La plus petite duree observee est 0.000000040 s, soit environ 40 nanosecondes. C'est le plus petit ecart observe par ces appels dans cet essai, pas une garantie que l'horloge a toujours exactement cette resolution. Le cout des appels et l'ordonnanceur peuvent aussi intervenir.
+
+Message :
+Avec `const Chrono k;`, l'appel `k.redemarrer();` est refuse. Message Clang observe :
+error: 'this' argument to member function 'redemarrer' has type 'const Chrono', but function is not marked const
+
+Pourquoi :
+`k.ecoule()` passe parce que `ecoule()` est declaree `const` : elle lit l'instant de depart sans modifier l'objet.
+`k.redemarrer()` est refuse parce que `redemarrer()` change le membre `depart`. Une methode non const ne peut pas etre appelee sur un objet declare const.
